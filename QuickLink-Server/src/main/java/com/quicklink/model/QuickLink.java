@@ -35,6 +35,10 @@
         @Column(name = "createdAt" , nullable = false, updatable = false)
         private Instant createdAt = Instant.now();
 
+        @ManyToOne(fetch = FetchType.LAZY)
+        @JoinColumn(name = "user_id", nullable = true)
+        private User user;
+
         public QuickLink(String code, String targetUrl, Instant expiresAt) {
             this.code = code;
             this.targetUrl = targetUrl;
