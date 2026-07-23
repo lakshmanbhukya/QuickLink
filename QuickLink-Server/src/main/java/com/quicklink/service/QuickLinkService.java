@@ -6,6 +6,7 @@ import com.quicklink.model.User;
 import com.quicklink.repository.QuickLinkRepository;
 import com.quicklink.repository.UserRepository;
 import jakarta.transaction.Transactional;
+import jakarta.validation.Valid;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -29,7 +30,7 @@ public class QuickLinkService {
         this.userRepository = userRepository;
     }
 
-    public QuickLink create(CreateQuickLinkRequest request) {
+    public QuickLink create(@Valid CreateQuickLinkRequest request) {
         String target = normalizeUrl(request.getUrl());
 
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -40,7 +41,7 @@ public class QuickLinkService {
         }
 
         String code;
-        if (request.getAlias() != null) {
+        if (request.getAlias() != null && !request.getAlias().trim().isEmpty()) {
             if (currentUser == null) {
                 throw new IllegalArgumentException("Authentication required to request a custom alias");
             }

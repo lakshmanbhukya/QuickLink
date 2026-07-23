@@ -26,10 +26,10 @@ public class QuickCodeService {
     public String validateCustomAlias(String alias) {
         if (alias == null || alias.isBlank()) return null;
         if (!alias.matches("^[A-Za-z0-9_]{3,32}$")) {
-            throw new IllegalArgumentException("Alias must be 3-32 characters");
+            throw new IllegalArgumentException("Alias must be between 3 and 32 characters (letters, numbers, underscores)");
         }
         if (repository.existsByCode(alias)) {
-            throw new IllegalArgumentException("Alias already exists");
+            throw new IllegalArgumentException("Alias '" + alias + "' is already taken. Please choose a different alias.");
         }
         return alias;
     }

@@ -19,18 +19,23 @@ public class GlobalExceptionHandler {
         for(FieldError fieldError : ex.getBindingResult().getFieldErrors()){
             errors.put(fieldError.getField(),fieldError.getDefaultMessage());
         }
-        Map<String,Object> body=Map.of(
-                "status",400,
-                "errors",errors,
+        String firstError = errors.values().stream().findFirst().map(Object::toString).orElse("Validation error");
+        Map<String,Object> body = Map.of(
+                "status", 400,
+                "message", firstError,
+                "errors", errors,
                 "timestamp", Instant.now()
         );
         return ResponseEntity.badRequest().body(body);
     }
+
     @ExceptionHandler(IllegalArgumentException.class)
     public ResponseEntity<?> handleBadRequest(IllegalArgumentException ex){
+        String msg = ex.getMessage() != null ? ex.getMessage() : "Invalid argument";
         Map<String,Object> body = new HashMap<>();
         body.put("status", 400);
-        body.put("errors", ex.getMessage() != null ? ex.getMessage() : "Invalid argument");
+        body.put("message", msg);
+        body.put("errors", msg);
         body.put("timestamp", Instant.now());
         return ResponseEntity.badRequest().body(body);
     }

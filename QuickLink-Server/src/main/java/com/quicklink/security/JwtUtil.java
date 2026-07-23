@@ -16,8 +16,9 @@ public class JwtUtil {
     private static final long EXPIRATION_TIME = 86400000; // 24 hours in ms
     private final Algorithm algorithm;
 
-    public JwtUtil(@Value("${app.jwt.secret}") String secret) {
-        this.algorithm = Algorithm.HMAC256(secret);
+    public JwtUtil(@Value("${app.jwt.secret:defaultQuickLinkSecretKey2026Secure256BitKey!}") String secret) {
+        String effectiveSecret = (secret != null && !secret.isBlank()) ? secret : "defaultQuickLinkSecretKey2026Secure256BitKey!";
+        this.algorithm = Algorithm.HMAC256(effectiveSecret);
     }
 
     public String generateToken(String username) {
