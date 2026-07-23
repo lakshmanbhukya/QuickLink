@@ -18,7 +18,7 @@ public class LoggingAspect {
         String className = joinPoint.getTarget().getClass().getSimpleName();
         String methodName = joinPoint.getSignature().getName();
 
-        log.info("Entering: {}.{}() with arguments = {}", className, methodName, Arrays.toString(joinPoint.getArgs()));
+        log.info("Entering: {}.{}()", className, methodName);
 
         Object result;
         try {
@@ -26,7 +26,7 @@ public class LoggingAspect {
         } catch (Throwable e) {
             long executionTime = System.currentTimeMillis() - start;
 
-            log.error("Exception in {}.{}() after {} ms. Error: ", className, methodName, executionTime, e);
+            log.error("Exception in {}.{}() after {} ms. Error: {}", className, methodName, executionTime, e.getMessage());
             throw e;
         }
 
