@@ -1,0 +1,108 @@
+@import "tailwindcss";
+
+@theme inline {
+  --color-background: var(--background);
+  --color-panel: var(--panel);
+  --color-sunken: var(--sunken);
+  --color-hairline: var(--hairline);
+  --color-ink: var(--ink);
+  --color-body: var(--body);
+  --color-muted: var(--muted);
+  --color-faint: var(--faint);
+  --color-accent: var(--accent);
+  --color-accent-hover: var(--accent-hover);
+  --color-accent-ink: var(--accent-ink);
+  --color-accent-soft: var(--accent-soft);
+  --color-accent-text: var(--accent-text);
+
+  --font-sans: "Inter", "Source Sans 3", ui-sans-serif, system-ui, -apple-system, sans-serif;
+  --font-heading: "Manrope", "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, monospace;
+}
+
+@layer base {
+  /* Light theme */
+  :root {
+    --background: #f8fafc;
+    --panel: #ffffff;
+    --sunken: #f1f5f9;
+    --hairline: #e2e8f0;
+    --ink: #0f172a;
+    --body: #334155;
+    --muted: #64748b;
+    --faint: #94a3b8;
+    --accent: #0d9488;
+    --accent-hover: #0f766e;
+    --accent-ink: #ffffff;
+    --accent-soft: rgba(13, 148, 136, 0.1);
+    --accent-text: #0f766e;
+  }
+
+  /* Dark theme - matched to mockup */
+  .dark {
+    --background: #111318;
+    --panel: #1a1c23;
+    --sunken: #14161d;
+    --hairline: #2b2e38;
+    --ink: #ffffff;
+    --body: #cbd5e1;
+    --muted: #94a3b8;
+    --faint: #64748b;
+    --accent: #23d8b3;
+    --accent-hover: #1fc4a3;
+    --accent-ink: #091714;
+    --accent-soft: rgba(35, 216, 179, 0.12);
+    --accent-text: #23d8b3;
+  }
+
+  body {
+    font-family: var(--font-sans);
+    background-color: var(--background);
+    color: var(--ink);
+    -webkit-font-smoothing: antialiased;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    font-family: var(--font-heading);
+  }
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--hairline);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--faint);
+}
+
+/* Animations (kept for pages not yet redesigned) */
+.animate-fade-in {
+  animation: fadeIn 0.15s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(3px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
