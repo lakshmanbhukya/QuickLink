@@ -2,9 +2,9 @@ name: QuickLink CI/CD Pipeline
 
 on:
   push:
-    branches: [ main ]
+    branches: [main]
   pull_request:
-    branches: [ main ]
+    branches: [main]
 
 jobs:
   # 1. Build Spring Boot Server with Maven
@@ -16,9 +16,9 @@ jobs:
       - name: Set up JDK 17
         uses: actions/setup-java@v4
         with:
-          java-version: '17'
-          distribution: 'temurin'
-          cache: 'maven'
+          java-version: "17"
+          distribution: "temurin"
+          cache: "maven"
 
       - name: Build Server with Maven
         run: |
@@ -43,11 +43,11 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Use Node.js 20
+      - name: Use Node.js 24
         uses: actions/setup-node@v4
         with:
-          node-version: '20'
-          cache: 'npm'
+          node-version: "24"
+          cache: "npm"
           cache-dependency-path: QucikLink-Client/package-lock.json
 
       - name: Install Dependencies & Verify Build
@@ -73,6 +73,7 @@ jobs:
     needs: [build-server, build-client]
     runs-on: ubuntu-latest
     if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    environment: Production
     steps:
       - uses: actions/checkout@v4
 
