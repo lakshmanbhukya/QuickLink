@@ -91,11 +91,6 @@ jobs:
             lakshmanbhukya/quicklink-server:latest
             lakshmanbhukya/quicklink-server:${{ github.sha }}
 
-      - name: Trigger Render Deploy Hook
-        if: success() && secrets.RENDER_DEPLOY_HOOK_URL != ''
-        run: |
-          curl -X POST "${{ secrets.RENDER_DEPLOY_HOOK_URL }}"
-
       - name: Discord Notification (Server Image Pushed)
         if: success() && secrets.DISCORD_WEBHOOK != ''
         uses: sarisia/actions-status-discord@v1
@@ -103,5 +98,5 @@ jobs:
           webhook: ${{ secrets.DISCORD_WEBHOOK }}
           status: ${{ job.status }}
           title: "Server Image Pushed to Docker Hub"
-          description: "lakshmanbhukya/quicklink-server successfully pushed and deployed on Render."
+          description: "lakshmanbhukya/quicklink-server successfully pushed to Docker Hub."
           color: 0x0000ff
