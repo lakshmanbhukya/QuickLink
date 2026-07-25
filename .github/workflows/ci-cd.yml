@@ -26,7 +26,9 @@ jobs:
           mvn clean package -DskipTests -B
 
       - name: Discord Notification (Server Build)
-        if: success() && secrets.DISCORD_WEBHOOK != ''
+        env:
+          DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
+        if: success() && env.DISCORD_WEBHOOK != ''
         uses: sarisia/actions-status-discord@v1
         with:
           webhook: ${{ secrets.DISCORD_WEBHOOK }}
@@ -55,7 +57,9 @@ jobs:
           npm run build
 
       - name: Discord Notification (Client Build)
-        if: success() && secrets.DISCORD_WEBHOOK != ''
+        env:
+          DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
+        if: success() && env.DISCORD_WEBHOOK != ''
         uses: sarisia/actions-status-discord@v1
         with:
           webhook: ${{ secrets.DISCORD_WEBHOOK }}
@@ -92,7 +96,9 @@ jobs:
             lakshmanbhukya/quicklink-server:${{ github.sha }}
 
       - name: Discord Notification (Server Image Pushed)
-        if: success() && secrets.DISCORD_WEBHOOK != ''
+        env:
+          DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
+        if: success() && env.DISCORD_WEBHOOK != ''
         uses: sarisia/actions-status-discord@v1
         with:
           webhook: ${{ secrets.DISCORD_WEBHOOK }}
