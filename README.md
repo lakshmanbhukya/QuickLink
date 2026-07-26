@@ -40,7 +40,7 @@ flowchart TD
     end
 
     User -->|SPA Interactivity| Vercel
-    User -->|GET /{code} Redirect| Render
+    User -->|"GET /{code} Redirect"| Render
     
     Render -->|1. Primary Cache Check| Redis
     Render -.->|Cache Miss Fallback| DB
