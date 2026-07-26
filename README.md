@@ -35,8 +35,8 @@ flowchart TD
 
     subgraph AWS_SG ["AWS Singapore (ap-southeast-1)"]
         Render["🚀 Render Spring Boot 3 Engine"]
-        Redis[("⚡ Upstash Redis Cache<br/>(Sub-1ms Lookups)")]
-        DB[("🐘 Neon PostgreSQL<br/>(1-2ms Relational DB)")]
+        Redis[("⚡ Upstash Redis Cache<br>Sub-1ms Lookups")]
+        DB[("🐘 Neon PostgreSQL<br>1-2ms Relational DB")]
     end
 
     User -->|SPA Interactivity| Vercel
