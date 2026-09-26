@@ -26,6 +26,11 @@
 
 Co-locating compute and persistence services inside **AWS Singapore (`ap-southeast-1`)** eliminates cross-continental network penalties, achieving ultra-fast redirection latency across APAC:
 
+![QuickLink System Architecture](assets/quicklink-archify.png)
+
+🔗 **Interactive Architecture Diagram & Live Visualizer:** [https://lakshmanbhukya.github.io/QuickLink/](https://lakshmanbhukya.github.io/QuickLink/)
+
+<!--
 ```mermaid
 flowchart TD
     subgraph Client ["Client Layer"]
@@ -46,6 +51,7 @@ flowchart TD
     Render -.->|Cache Miss Fallback| DB
     Render -->|2. Async Hit Log & Write-Back| Redis
 ```
+-->
 
 ### ⏱️ Precise RTT Performance Metrics
 
