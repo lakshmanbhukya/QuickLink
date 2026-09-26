@@ -1,0 +1,212 @@
+{
+  "schema_version": 1,
+  "diagram_type": "architecture",
+  "meta": {
+    "title": "QuickLink Architecture & Low-Latency Topology",
+    "output": "quicklink-architecture.html",
+    "animation": "trace",
+    "quality_profile": "showcase",
+    "viewBox": [1020, 440],
+    "views": [
+      {
+        "id": "redirection-path",
+        "label": "Sub-50ms Redirection Path",
+        "focus": ["users", "render_engine", "redis_cache", "neon_db"],
+        "note": "Ultra-fast HTTP 302 redirect checking Upstash Redis before Neon PostgreSQL fallback."
+      },
+      {
+        "id": "client-link-flow",
+        "label": "Client Link Creation & Auth",
+        "focus": ["users", "vercel_client", "jwt_guard", "render_engine", "qr_engine"],
+        "note": "React SPA link generation authenticated via stateless JWT and QR code matrix rendering."
+      },
+      {
+        "id": "retention-lifecycle",
+        "label": "Persistence & Expiry Lifecycle",
+        "focus": ["neon_db", "redis_cache", "cleanup_cron"],
+        "note": "Multi-tier cache retention and @Scheduled midnight cron purging expired links from PostgreSQL."
+      }
+    ]
+  },
+  "components": [
+    {
+      "id": "users",
+      "type": "external",
+      "label": "Clients / Users",
+      "sublabel": "Browser & Mobile",
+      "pos": [40, 110],
+      "size": [130, 60]
+    },
+    {
+      "id": "vercel_client",
+      "type": "frontend",
+      "label": "QuickLink Client",
+      "sublabel": "React 18 + Vite SPA",
+      "brand": "react",
+      "pos": [40, 270],
+      "size": [130, 60]
+    },
+    {
+      "id": "jwt_guard",
+      "type": "security",
+      "label": "JWT Security",
+      "sublabel": "Stateless Auth Filter",
+      "tag": "Spring Security",
+      "pos": [360, 70],
+      "size": [150, 60]
+    },
+    {
+      "id": "render_engine",
+      "type": "backend",
+      "label": "Spring Boot 3 Core",
+      "sublabel": "Redirect & REST API",
+      "brand": "spring",
+      "pos": [360, 190],
+      "size": [150, 68],
+      "tag": "Render Cloud"
+    },
+    {
+      "id": "cleanup_cron",
+      "type": "backend",
+      "label": "Cleanup Service",
+      "sublabel": "Midnight Expiry Purge",
+      "tag": "@Scheduled",
+      "pos": [360, 320],
+      "size": [150, 60]
+    },
+    {
+      "id": "redis_cache",
+      "type": "database",
+      "label": "Upstash Redis",
+      "sublabel": "Sub-1ms Cache",
+      "brand": "redis",
+      "pos": [700, 70],
+      "size": [140, 60],
+      "tag": "< 2ms RTT"
+    },
+    {
+      "id": "qr_engine",
+      "type": "backend",
+      "label": "QR Matrix Engine",
+      "sublabel": "ZXing PNG Stream",
+      "pos": [700, 194],
+      "size": [140, 60]
+    },
+    {
+      "id": "neon_db",
+      "type": "database",
+      "label": "Neon PostgreSQL",
+      "sublabel": "Serverless Database",
+      "brand": "postgresql",
+      "pos": [700, 320],
+      "size": [140, 60],
+      "tag": "1-2ms Latency"
+    }
+  ],
+  "boundaries": [
+    {
+      "kind": "region",
+      "label": "AWS Singapore (ap-southeast-1)",
+      "wraps": ["jwt_guard", "render_engine", "cleanup_cron", "redis_cache", "qr_engine", "neon_db"],
+      "pad": 20
+    }
+  ],
+  "connections": [
+    {
+      "id": "users-to-client",
+      "from": "users",
+      "to": "vercel_client",
+      "label": "browse & manage",
+      "fromSide": "bottom",
+      "toSide": "top",
+      "labelAt": [105, 218]
+    },
+    {
+      "id": "users-to-render",
+      "from": "users",
+      "to": "render_engine",
+      "label": "GET /{code}",
+      "variant": "emphasis",
+      "fromSide": "right",
+      "toSide": "left"
+    },
+    {
+      "id": "client-to-render",
+      "from": "vercel_client",
+      "to": "render_engine",
+      "label": "REST API",
+      "fromSide": "right",
+      "toSide": "left"
+    },
+    {
+      "id": "jwt-to-render",
+      "from": "jwt_guard",
+      "to": "render_engine",
+      "label": "token validation",
+      "variant": "security",
+      "fromSide": "bottom",
+      "toSide": "top",
+      "labelAt": [435, 155]
+    },
+    {
+      "id": "render-to-redis",
+      "from": "render_engine",
+      "to": "redis_cache",
+      "label": "1. cache check",
+      "variant": "emphasis"
+    },
+    {
+      "id": "render-to-qr",
+      "from": "render_engine",
+      "to": "qr_engine",
+      "label": "generate QR",
+      "labelAt": [555, 214]
+    },
+    {
+      "id": "render-to-neon",
+      "from": "render_engine",
+      "to": "neon_db",
+      "label": "2. SQL fallback",
+      "variant": "dashed",
+      "fromSide": "right",
+      "toSide": "top",
+      "labelAt": [580, 275]
+    },
+    {
+      "id": "cleanup-to-neon",
+      "from": "cleanup_cron",
+      "to": "neon_db",
+      "label": "purge expired",
+      "variant": "dashed",
+      "fromSide": "right",
+      "toSide": "left"
+    }
+  ],
+  "cards": [
+    {
+      "dot": "cyan",
+      "title": "Client & Edge Layer",
+      "items": [
+        "Vercel React 18 SPA provides link creation, history, and live QR previews",
+        "Stateless JWT tokens secure link management while redirects stay public"
+      ]
+    },
+    {
+      "dot": "emerald",
+      "title": "Sub-50ms Redirection Engine",
+      "items": [
+        "Render engine, Upstash Redis, and Neon DB co-located in AWS Singapore",
+        "Warm cache hits resolve in < 2ms directly from in-memory Redis via HTTP 302",
+        "Cold misses query Neon PostgreSQL with automatic async Redis write-back"
+      ]
+    },
+    {
+      "dot": "amber",
+      "title": "State & Lifecycle Management",
+      "items": [
+        "ZXing matrix engine streams real-time QR code PNG buffers directly to clients",
+        "@Scheduled midnight cron task purges expired URL records from PostgreSQL"
+      ]
+    }
+  ]
+}
