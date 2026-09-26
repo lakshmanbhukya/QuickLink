@@ -30,28 +30,6 @@ Co-locating compute and persistence services inside **AWS Singapore (`ap-southea
 
 🔗 **Interactive Architecture Diagram & Live Visualizer:** [https://lakshmanbhukya.github.io/QuickLink/](https://lakshmanbhukya.github.io/QuickLink/)
 
-<!--
-```mermaid
-flowchart TD
-    subgraph Client ["Client Layer"]
-        User["🌐 User / Browser"]
-        Vercel["⚡ Vercel React SPA (Client)"]
-    end
-
-    subgraph AWS_SG ["AWS Singapore (ap-southeast-1)"]
-        Render["🚀 Render Spring Boot 3 Engine"]
-        Redis[("⚡ Upstash Redis Cache<br>Sub-1ms Lookups")]
-        DB[("🐘 Neon PostgreSQL<br>1-2ms Relational DB")]
-    end
-
-    User -->|SPA Interactivity| Vercel
-    User -->|"GET /{code} Redirect"| Render
-    
-    Render -->|1. Primary Cache Check| Redis
-    Render -.->|Cache Miss Fallback| DB
-    Render -->|2. Async Hit Log & Write-Back| Redis
-```
--->
 
 ### ⏱️ Precise RTT Performance Metrics
 
