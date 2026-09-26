@@ -3,8 +3,12 @@ name: QuickLink CI/CD Pipeline
 on:
   push:
     branches: [main]
+    paths:
+      - "QuickLink-Server/**"
   pull_request:
     branches: [main]
+    paths:
+      - "QuickLink-Server/**"
 
 jobs:
   # 1. Build Spring Boot Server with Maven
