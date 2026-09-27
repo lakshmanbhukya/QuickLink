@@ -30,18 +30,6 @@ Co-locating compute and persistence services inside **AWS Singapore (`ap-southea
 
 🔗 **Interactive Architecture Diagram & Live Visualizer:** [https://lakshmanbhukya.github.io/QuickLink/](https://lakshmanbhukya.github.io/QuickLink/)
 
-
-### ⏱️ Precise RTT Performance Metrics
-
-| Request Step | Routing Path | RTT Latency | Engineering Details |
-|---|---|---|---|
-| **Network Transit** | India User ➔ Singapore Server (Render) | **45ms – 60ms** | Undersea fiber cable propagation delay |
-| **Cache Hit (Warm)** | Render ➔ Upstash Redis | **< 2ms** | Intra-datacenter AWS AZ peering |
-| **DB Read (Cold)** | Render ➔ Neon PostgreSQL | **2ms – 4ms** | Same-region low-latency TCP connection |
-| **Total Cache Hit RTT** | End-to-End Latency | **~47ms – 62ms** | Instantaneous HTTP 302 redirection |
-
----
-
 ### Core Engineering Highlights
 
 ##### 1.  Base62 Collision-Free Key Generation
